@@ -76,7 +76,7 @@ export class UsersService {
   async sendPhoneOtp(phone_number: string, otp: string) {
     try {
       const res = await fetch(
-        `https://sandbox.mekongsms.com/api/sendsms.aspx?username=bs_cambodia@apitest&pass=3b84f2fa0c7e86a16097fc7b4dbb2f9c&sender=SMS Testing&smstext=Your phone verification OTP is [${otp}]. Enter this code to confirm your phone number.&gsm=855${phone_number}&int=1`,
+        `https://sandbox.mekongsms.com/api/sendsms.aspx?username=bs_cambodia@apitest&pass=3b84f2fa0c7e86a16097fc7b4dbb2f9c&sender=SMS Testing&smstext=Your phone verification OTP is ${otp} , Enter this code to confirm your phone number.&gsm=855${phone_number}&int=1`,
       );
       // const res = await sth.text();
       console.log(res);
