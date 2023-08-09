@@ -26,9 +26,6 @@ export class User {
   @Column({ type: 'boolean', default: false })
   status: boolean;
 
-  @Column({ nullable: true })
-  otpId: string;
-
   @OneToOne(() => Voucher, (voucher) => voucher.user)
   @JoinColumn()
   voucher: Voucher;

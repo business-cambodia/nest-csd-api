@@ -20,9 +20,19 @@ export class UsersController {
     return this.usersService.signup(createUserDto);
   }
 
+  @Post('/login')
+  login(@Body() body: any) {
+    return this.usersService.login(body);
+  }
+
   @Post('/sendOtp')
-  sendOtp(@Body() body: string) {
+  sendOtp(@Body() body: any) {
     return this.usersService.sendOtp(body);
+  }
+
+  @Post('/sendOtpLogin')
+  sendOtpLogin(@Body() body: any) {
+    return this.usersService.sendOtpLogin(body);
   }
 
   @Get('/getOtp')
@@ -37,7 +47,7 @@ export class UsersController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+    return this.usersService.findByPhone(id);
   }
 
   @Patch(':id')

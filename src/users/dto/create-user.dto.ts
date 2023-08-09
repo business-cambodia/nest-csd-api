@@ -16,6 +16,5 @@ export class CreateUserDto {
   @IsString()
   voucherType: string;
 
-  otpId: string;
   voucherId: string;
 }
