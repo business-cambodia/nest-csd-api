@@ -23,7 +23,7 @@ export class User {
   @Column({ unique: true, nullable: false })
   phone_number: string;
 
-  @Column({ type: 'boolean', default: false })
+  @Column({ type: 'boolean', default: true })
   status: boolean;
 
   @OneToOne(() => Voucher, (voucher) => voucher.user)
