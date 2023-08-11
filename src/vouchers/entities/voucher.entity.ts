@@ -14,7 +14,7 @@ export class Voucher {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, unique: true })
   code: string;
 
   @Column({ type: 'boolean', default: true })
