@@ -14,7 +14,7 @@ import { VouchersModule } from './vouchers/vouchers.module';
       username: 'postgres',
       password: 'Price-Spy-DB@#124',
       database: 'csd_db',
-      // autoLoadEntities: true,
+      autoLoadEntities: true,
       // synchronize: true,
     }),
     UsersModule,
