@@ -131,7 +131,12 @@ export class UsersService {
   }
 
   findAll() {
-    return this.userRepository.find({ relations: ['voucher'] });
+    return this.userRepository.find({
+      relations: ['voucher'],
+      order: {
+        created_at: 'DESC',
+      },
+    });
   }
 
   findOne(id: number) {
