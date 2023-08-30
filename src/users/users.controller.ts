@@ -25,6 +25,11 @@ export class UsersController {
     return this.usersService.login(body);
   }
 
+  @Patch('/allowSms')
+  allowSms(@Body() body: any) {
+    return this.usersService.allowSms(body);
+  }
+
   @Post('/sendOtp')
   sendOtp(@Body() body: any) {
     return this.usersService.sendOtp(body);

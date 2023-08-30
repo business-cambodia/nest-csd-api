@@ -36,6 +36,18 @@ export class UsersService {
     return user;
   }
 
+  async allowSms(body: any) {
+    body.phone_number = '0' + body.phone_number;
+    const user = await this.findByPhone(body?.phone_number);
+    if (!user) {
+      return { message: 'User Not Exist' };
+    }
+
+    user.allowSms = true;
+    this.userRepository.save(user);
+    return user;
+  }
+
   generateOTP() {
     const digits = '0123456789';
     let code = '';

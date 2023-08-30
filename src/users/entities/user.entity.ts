@@ -33,6 +33,9 @@ export class User {
   @Column({ nullable: true })
   voucherId: string;
 
+  @Column({ type: 'boolean', default: false })
+  allowSms: boolean;
+
   @CreateDateColumn()
   created_at: Date;
 
