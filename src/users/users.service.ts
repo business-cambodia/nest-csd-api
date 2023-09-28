@@ -62,9 +62,9 @@ export class UsersService {
     const user = await this.userRepository.findOne({
       where: { phone_number: body.phone_number },
     });
-    if (user) {
-      return { message: 'Phone number is existed please login' };
-    }
+    // if (user) {
+    //   return { message: 'Phone number is existed please login' };
+    // }
     const otp = this.generateOTP();
     this.sendPhoneOtp(body.phone_number, otp);
     // this.sendEmailOtp(body.email, otp);
