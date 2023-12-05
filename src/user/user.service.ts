@@ -7,7 +7,7 @@ import { Repository } from 'typeorm';
 import { VouchersService } from 'src/vouchers/vouchers.service';
 
 @Injectable()
-export class UsersService {
+export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     private readonly voucherService: VouchersService,

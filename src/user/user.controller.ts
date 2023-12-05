@@ -7,61 +7,61 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
+import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
-@Controller('users')
-export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+@Controller('user')
+export class UserController {
+  constructor(private readonly userService: UserService) {}
 
   @Post('/signup')
   create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.signup(createUserDto);
+    return this.userService.signup(createUserDto);
   }
 
   @Post('/login')
   login(@Body() body: any) {
-    return this.usersService.login(body);
+    return this.userService.login(body);
   }
 
   @Patch('/allowSms')
   allowSms(@Body() body: any) {
-    return this.usersService.allowSms(body);
+    return this.userService.allowSms(body);
   }
 
   @Post('/sendOtp')
   sendOtp(@Body() body: any) {
-    return this.usersService.sendOtp(body);
+    return this.userService.sendOtp(body);
   }
 
   @Post('/sendOtpLogin')
   sendOtpLogin(@Body() body: any) {
-    return this.usersService.sendOtpLogin(body);
+    return this.userService.sendOtpLogin(body);
   }
 
   @Get('/getOtp')
   getOtp() {
-    return this.usersService.sendPhoneOtp('', '223344');
+    return this.userService.sendPhoneOtp('', '223344');
   }
 
   @Get()
   findAll() {
-    return this.usersService.findAll();
+    return this.userService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.usersService.findByPhone(id);
+    return this.userService.findByPhone(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+    return this.userService.update(+id, updateUserDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+    return this.userService.remove(+id);
   }
 }

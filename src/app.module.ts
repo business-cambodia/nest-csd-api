@@ -2,8 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersModule } from './users/users.module';
-import { User } from './users/entities/user.entity';
+import { UserModule } from './user/user.module';
 import { VouchersModule } from './vouchers/vouchers.module';
 import { RoomsModule } from './rooms/rooms.module';
 import { ReviewsController } from './reviews/reviews.controller';
@@ -19,7 +18,7 @@ import { ReviewsController } from './reviews/reviews.controller';
       autoLoadEntities: true,
       // synchronize: true,
     }),
-    UsersModule,
+    UserModule,
     VouchersModule,
     RoomsModule,
   ],
