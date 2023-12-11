@@ -1,8 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class RoomsService {
+  constructor(private readonly usersService: UsersService) {}
+
   async createBooking(formData: any) {
     try {
       const res = await axios.post(
@@ -15,6 +18,9 @@ export class RoomsService {
           },
         },
       );
+      const user = await this.usersService.findOne(formData.userId);
+      user.bookings.push({ reservationID: res.data.reservationID });
+      this.usersService.updateBookings(user);
       return res.data;
     } catch (error) {}
   }
