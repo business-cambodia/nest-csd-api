@@ -6,6 +6,7 @@ import { UserModule } from './user/user.module';
 import { VouchersModule } from './vouchers/vouchers.module';
 import { RoomsModule } from './rooms/rooms.module';
 import { ReviewsController } from './reviews/reviews.controller';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { ReviewsController } from './reviews/reviews.controller';
     UserModule,
     VouchersModule,
     RoomsModule,
+    UsersModule,
   ],
   controllers: [AppController, ReviewsController],
   providers: [AppService],
