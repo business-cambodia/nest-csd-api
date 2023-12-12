@@ -10,6 +10,7 @@ import {
 import { UsersService } from './users.service';
 import { CreateUsersDto } from './dto/create-users.dto';
 import { UpdateUsersDto } from './dto/update-users.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 
 @Controller('users')
 export class UsersController {
@@ -28,6 +29,16 @@ export class UsersController {
   @Post('/sendOtp')
   sendOtp(@Body() body: any) {
     return this.usersService.sendOtp(body);
+  }
+
+  @Post('/sendEmailOtp')
+  sendEmailOtp(@Body() body: any) {
+    return this.usersService.sendEmailOtp(body);
+  }
+
+  @Patch('/resetPassword')
+  resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
+    return this.usersService.resetPassword(resetPasswordDto);
   }
 
   @Get()

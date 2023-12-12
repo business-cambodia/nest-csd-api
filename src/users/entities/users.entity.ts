@@ -26,6 +26,9 @@ export class Users {
   @Column({ nullable: false })
   password: string;
 
+  @Column({ nullable: true })
+  otpCode: string;
+
   @Column({ nullable: true, type: 'json', default: [] })
   bookings: object[];
 

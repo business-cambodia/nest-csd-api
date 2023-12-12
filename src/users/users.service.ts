@@ -5,6 +5,7 @@ import { Users } from './entities/users.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 
 @Injectable()
 export class UsersService {
@@ -17,7 +18,7 @@ export class UsersService {
     // createUserDto.phone_number = '0' + createUserDto.phone_number;
     const userExist = await this.findByEmail(createUserDto.email);
     if (userExist) {
-      throw new HttpException('Email is already existed!', 400);
+      throw new HttpException({ message: ['Email is already existed!'] }, 400);
     }
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
     createUserDto.password = hashedPassword;
@@ -28,11 +29,11 @@ export class UsersService {
   async login(body: any) {
     const user = await this.findByEmail(body?.email);
     if (!user) {
-      throw new HttpException('Email is not existed!', 400);
+      throw new HttpException({ message: ['Email is not existed!'] }, 400);
     }
     const isPasswordMatch = await bcrypt.compare(body.password, user.password);
     if (!isPasswordMatch) {
-      throw new HttpException('Password is not correct!', 400);
+      throw new HttpException({ message: ['Password is not correct!'] }, 400);
     }
     const { password, ...returnedUser } = user;
     return returnedUser;
@@ -76,6 +77,17 @@ export class UsersService {
     return `This action removes a #${id} user`;
   }
 
+  async resetPassword(resetPasswordDto: ResetPasswordDto) {
+    const user = await this.findByEmail(resetPasswordDto.email);
+    if (user.otpCode != resetPasswordDto.otp_code) {
+      throw new HttpException({ message: ['Wrong OTP Code'] }, 400);
+    }
+    user.password = await bcrypt.hash(resetPasswordDto.newPassword, 10);
+    user.otpCode = null;
+    this.usersRepository.save(user);
+    return { message: 'password updated' };
+  }
+
   async findBooking(id: string) {
     try {
       const res = await fetch(
@@ -117,6 +129,62 @@ export class UsersService {
       return res;
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  async sendEmailOtp(body: any) {
+    const clientEmail = body.email;
+    const user = await this.findByEmail(clientEmail);
+    if (!user) {
+      throw new HttpException({ message: ['Email is not existed!'] }, 400);
+    }
+    const otp_code = this.generateOTP();
+    user.otpCode = otp_code;
+    this.usersRepository.save(user);
+
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const nodemailer = require('nodemailer');
+    try {
+      // generate the 6 digits code
+      // get the client email from request body
+      const senderEmail = process.env.EMAIL;
+      // construct the transporter object for sending email
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.EMAIL,
+          pass: process.env.PASSWORD,
+        },
+      });
+      //   the message to be sent
+      const html = `
+      <div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
+      <div style="margin:20px auto;width:100%;padding:10px 0">
+        <div style="border-bottom:1px solid #eee">
+          <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">Summer Bay Beach Club & Cabins</a>
+        </div>
+        <p>Your email verification OTP is ${otp_code} , Enter this code to confirm your email.</p>
+        <h2 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">${otp_code}</h2>
+        <p style="font-size:0.9em;">Regards,<br />Summer Bay Beach Club & Cabins</p>
+      </div>
+      </div>
+        `;
+      const mailOptions = {
+        from: {
+          name: 'Summerbay',
+          address: senderEmail,
+        },
+        to: clientEmail,
+        subject: 'OTP Verification',
+        html,
+      };
+
+      // send the email
+      await transporter.sendMail(mailOptions);
+      return { message: 'email sent successfully' };
+    } catch (error) {
+      console.log(error);
+      return { message: 'something went wrong while sending the OTP' };
     }
   }
 }
