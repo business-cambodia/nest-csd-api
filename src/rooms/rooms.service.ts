@@ -18,8 +18,23 @@ export class RoomsService {
           },
         },
       );
+      if (formData.add_ons.length > 0) {
+        await axios.post(
+          'https://cms.bayoflights-entertainment.com/items/add_ons_bookings',
+          {
+            add_ons: formData.add_ons,
+            total_price: formData.add_ons_total_price,
+            cloudbed_reservation_id: res.data.reservationID,
+            guest_name: formData.guestFirstName + ' ' + formData.guestLastName,
+          },
+        );
+      }
       const user = await this.usersService.findOne(formData.userId);
-      user.bookings.push({ reservationID: res.data.reservationID });
+      user.bookings.unshift({
+        reservationID: res.data.reservationID,
+        add_ons: formData.add_ons,
+        add_ons_total_price: formData.add_ons_total_price,
+      });
       this.usersService.updateBookings(user);
       return res.data;
     } catch (error) {}
