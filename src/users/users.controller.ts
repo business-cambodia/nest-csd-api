@@ -56,6 +56,11 @@ export class UsersController {
     return this.usersService.findBooking(id);
   }
 
+  @Get('/bookingInvoice/:id')
+  findBookingInvoice(@Param('id') id: string) {
+    return this.usersService.findBookingInvoice(id);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUsersDto) {
     return this.usersService.update(+id, updateUserDto);

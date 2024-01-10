@@ -7,6 +7,7 @@ import { VouchersModule } from './vouchers/vouchers.module';
 import { RoomsModule } from './rooms/rooms.module';
 import { ReviewsController } from './reviews/reviews.controller';
 import { UsersModule } from './users/users.module';
+import { AddonsModule } from './addons/addons.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { UsersModule } from './users/users.module';
     VouchersModule,
     RoomsModule,
     UsersModule,
+    AddonsModule,
   ],
   controllers: [AppController, ReviewsController],
   providers: [AppService],

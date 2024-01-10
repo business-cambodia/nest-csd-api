@@ -1,10 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
+import { AddonsService } from 'src/addons/addons.service';
 import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class RoomsService {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly addonsService: AddonsService,
+  ) {}
 
   async createBooking(formData: any) {
     try {
@@ -19,21 +23,14 @@ export class RoomsService {
         },
       );
       if (formData.add_ons.length > 0) {
-        await axios.post(
-          'https://cms.bayoflights-entertainment.com/items/add_ons_bookings',
-          {
-            add_ons: formData.add_ons,
-            total_price: formData.add_ons_total_price,
-            cloudbed_reservation_id: res.data.reservationID,
-            guest_name: formData.guestFirstName + ' ' + formData.guestLastName,
-          },
-        );
+        formData.add_ons.forEach((element) => {
+          element.reservationID = res.data.reservationID;
+          this.addonsService.addAddons(element);
+        });
       }
       const user = await this.usersService.findOne(formData.userId);
       user.bookings.unshift({
         reservationID: res.data.reservationID,
-        add_ons: formData.add_ons,
-        add_ons_total_price: formData.add_ons_total_price,
       });
       this.usersService.updateBookings(user);
       return res.data;

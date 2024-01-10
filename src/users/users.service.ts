@@ -103,6 +103,21 @@ export class UsersService {
     } catch (error) {}
   }
 
+  async findBookingInvoice(id: string) {
+    try {
+      const res = await fetch(
+        `https://hotels.cloudbeds.com/api/v1.1/getReservationInvoiceInformation?reservationID=${id}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${process.env.CLOUD_BEDS_TOKEN}`,
+          },
+        },
+      );
+      return res.json();
+    } catch (error) {}
+  }
+
   generateOTP() {
     const digits = '0123456789';
     let code = '';
