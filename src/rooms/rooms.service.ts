@@ -80,7 +80,7 @@ export class RoomsService {
       'https://hotels.cloudbeds.com/api/v1.1/postReservationNote',
       {
         reservationID: reservationID,
-        note: note,
+        reservationNote: note,
       },
       {
         headers: {
