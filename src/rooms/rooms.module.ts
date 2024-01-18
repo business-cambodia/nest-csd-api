@@ -8,5 +8,6 @@ import { AddonsModule } from 'src/addons/addons.module';
   imports: [UsersModule, AddonsModule],
   controllers: [RoomsController],
   providers: [RoomsService],
+  exports: [RoomsService],
 })
 export class RoomsModule {}

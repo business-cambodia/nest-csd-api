@@ -8,6 +8,8 @@ import { RoomsModule } from './rooms/rooms.module';
 import { ReviewsController } from './reviews/reviews.controller';
 import { UsersModule } from './users/users.module';
 import { AddonsModule } from './addons/addons.module';
+import { AbaModule } from './aba/aba.module';
+import { TransactionsModule } from './transactions/transactions.module';
 
 @Module({
   imports: [
@@ -25,6 +27,8 @@ import { AddonsModule } from './addons/addons.module';
     RoomsModule,
     UsersModule,
     AddonsModule,
+    AbaModule,
+    TransactionsModule,
   ],
   controllers: [AppController, ReviewsController],
   providers: [AppService],

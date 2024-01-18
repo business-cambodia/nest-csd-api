@@ -20,6 +20,23 @@ export class AddonsService {
     }
   }
 
+  async getAddon(itemID: string) {
+    try {
+      const res = await fetch(
+        `https://hotels.cloudbeds.com/api/v1.1/getItem?itemID=${itemID}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${process.env.CLOUD_BEDS_TOKEN}`,
+          },
+        },
+      );
+      return res.json();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async addAddons(formData: any) {
     try {
       const res = await axios.post(

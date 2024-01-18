@@ -53,4 +53,41 @@ export class RoomsService {
       console.log(error);
     }
   }
+
+  getRoomPrice = async (
+    startDate: string,
+    endDate: string,
+    roomTypeID: string,
+  ) => {
+    try {
+      const res = await fetch(
+        `https://hotels.cloudbeds.com/api/v1.1/getRate?startDate=${startDate}&endDate=${endDate}&roomTypeID=${roomTypeID}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${process.env.CLOUD_BEDS_TOKEN}`,
+          },
+        },
+      );
+      return res.json();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  postReservationNote(reservationID: string, note: string) {
+    axios.post(
+      'https://hotels.cloudbeds.com/api/v1.1/postReservation',
+      {
+        reservationID: reservationID,
+        note: note,
+      },
+      {
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+          Authorization: `Bearer ${process.env.CLOUD_BEDS_TOKEN}`,
+        },
+      },
+    );
+  }
 }
