@@ -77,7 +77,9 @@ export class TransactionsService {
   ): string {
     rooms = rooms
       .map((room) => {
-        return room.roomTypeID + '-' + room.quantity;
+        return (
+          room.roomTypeID + '-' + room.quantity + '-' + room.roomsAvailable
+        );
       })
       .toString();
     add_ons = add_ons
