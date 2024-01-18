@@ -42,11 +42,11 @@ export class TransactionsService {
           transaction.payload,
         );
         this.roomService.postReservationNote(
-          reservation.data.reservationID,
+          reservation.reservationID,
           'Order ID: ' + transaction.tran_id,
         );
         transaction.status = true;
-        transaction.reservation_id = reservation.data.reservationID;
+        transaction.reservation_id = reservation.reservationID;
         transaction.success_time = abaTransaction.data.datetime;
         this.update(transaction.id, transaction);
         return { message: 'Booking success!' };
