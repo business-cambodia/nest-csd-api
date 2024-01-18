@@ -77,7 +77,7 @@ export class RoomsService {
 
   postReservationNote(reservationID: string, note: string) {
     axios.post(
-      'https://hotels.cloudbeds.com/api/v1.1/postReservation',
+      'https://hotels.cloudbeds.com/api/v1.1/postReservationNote',
       {
         reservationID: reservationID,
         note: note,
