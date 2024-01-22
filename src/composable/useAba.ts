@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 
 const useAba: AxiosInstance = axios.create({
-  baseURL: 'https://checkout-sandbox.payway.com.kh/api',
+  baseURL: process.env.PAYWAY_BASE_URL,
   headers: {
     'Content-Type': 'multipart/form-data',
   },
