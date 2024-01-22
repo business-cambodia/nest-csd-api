@@ -10,15 +10,17 @@ import { UsersModule } from './users/users.module';
 import { AddonsModule } from './addons/addons.module';
 import { AbaModule } from './aba/aba.module';
 import { TransactionsModule } from './transactions/transactions.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({}),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: '146.190.108.43',
-      username: 'postgres',
-      password: 'Price-Spy-DB@#124',
-      database: 'csd_db',
+      host: process.env.DB_HOST,
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASS,
+      database: process.env.DB_NAME,
       autoLoadEntities: true,
       // synchronize: true,
     }),
