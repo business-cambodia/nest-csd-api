@@ -36,32 +36,46 @@ export class AbaService {
         tran_id,
         unique_tran_id,
       );
-      const roomPrice = body.rooms.reduce(
-        async (accumulator: any, room: any) => {
+      const items = [];
+      const roomPrice = await body.rooms.reduce(
+        async (accumulatorPromise, room) => {
+          const accumulator = await accumulatorPromise;
           const roomm = await this.roomsService.getRoomPrice(
             body.startDate,
             body.endDate,
             room.roomTypeID,
           );
-          return (await accumulator) + roomm.data.roomRate * room.quantity;
+          items.push({
+            name: room.roomTypeName,
+            quantity: +room.quantity,
+            price: +roomm.data.roomRate,
+          });
+          return accumulator + roomm.data.roomRate * room.quantity;
         },
-        0,
+        Promise.resolve(0),
       );
 
-      const addonPrice = body.add_ons.reduce(
-        async (accumulator: any, add_on: any) => {
+      const addonPrice = await body.add_ons.reduce(
+        async (accumulatorPromise, add_on) => {
+          const accumulator = await accumulatorPromise;
           const addon = await this.addonService.getAddon(add_on.itemID);
-          return (await accumulator) + addon.data.price * add_on.itemQuantity;
+          items.push({
+            name: addon.data.name,
+            quantity: +add_on.itemQuantity,
+            price: addon.data.price,
+          });
+          return accumulator + addon.data.price * add_on.itemQuantity;
         },
-        0,
+        Promise.resolve(0),
       );
-      const price = (await roomPrice) + (await addonPrice);
+      const price = roomPrice + addonPrice;
+      const items64 = btoa(JSON.stringify(items));
       const continue_success_url = '/profile';
       const req_time = this.req_time();
       const return_url =
         'https://api.bayoflights-entertainment.com/transactions';
       const hashh = CryptoJS.HmacSHA512(
-        `${req_time}${process.env.MERCHANT_ID}${transaction.tran_id}${price}${body.guestFirstName}${body.guestLastName}${body.guestEmail}${body.guestPhone}${body.payment_option}${return_url}${continue_success_url}`,
+        `${req_time}${process.env.MERCHANT_ID}${transaction.tran_id}${price}${items64}${body.guestFirstName}${body.guestLastName}${body.guestEmail}${body.guestPhone}${body.payment_option}${return_url}${continue_success_url}`,
         process.env.PAYWAY_API_KEY,
       );
       const base64 = hashh.toString(CryptoJS.enc.Base64);
@@ -75,6 +89,7 @@ export class AbaService {
           email: body.guestEmail,
           phone: body.guestPhone,
           amount: price,
+          items: items64,
           return_url: return_url,
           payment_option: body.payment_option,
           continue_success_url: continue_success_url,
