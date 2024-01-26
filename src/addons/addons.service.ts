@@ -3,10 +3,10 @@ import axios from 'axios';
 
 @Injectable()
 export class AddonsService {
-  async getAddons() {
+  async getAddons(categoryId: string) {
     try {
       const res = await fetch(
-        `https://hotels.cloudbeds.com/api/v1.1/getItems?itemCategoryID=265350`,
+        `https://hotels.cloudbeds.com/api/v1.1/getItems?itemCategoryID=${categoryId}`,
         {
           headers: {
             'Content-Type': 'application/json',
