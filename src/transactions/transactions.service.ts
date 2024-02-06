@@ -38,6 +38,9 @@ export class TransactionsService {
         abaTransaction.data.status == 0 &&
         abaTransaction.data.description == 'approved'
       ) {
+        transaction.payload = Object.assign(transaction.payload, {
+          tran_id: transaction.tran_id,
+        });
         const reservation = await this.roomService.createBooking(
           transaction.payload,
         );

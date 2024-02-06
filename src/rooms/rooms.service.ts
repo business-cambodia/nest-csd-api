@@ -31,6 +31,7 @@ export class RoomsService {
       const user = await this.usersService.findOne(formData.userId);
       user.bookings.unshift({
         reservationID: res.data.reservationID,
+        tran_id: formData.tran_id,
       });
       this.usersService.updateBookings(user);
       return res.data;
