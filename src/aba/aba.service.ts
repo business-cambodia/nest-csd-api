@@ -70,7 +70,7 @@ export class AbaService {
       );
       const price = roomPrice + addonPrice;
       const items64 = btoa(JSON.stringify(items));
-      const continue_success_url = '/profile';
+      const continue_success_url = '/bookings/success';
       const req_time = this.req_time();
       const return_url =
         'https://api.bayoflights-entertainment.com/transactions';
