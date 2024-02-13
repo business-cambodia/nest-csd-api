@@ -36,7 +36,8 @@ export class TransactionsService {
       );
       if (
         abaTransaction.data.status == 0 &&
-        abaTransaction.data.description == 'approved'
+        abaTransaction.data.description == 'approved' &&
+        transaction.status == false
       ) {
         transaction.payload = Object.assign(transaction.payload, {
           tran_id: transaction.tran_id,
@@ -81,7 +82,13 @@ export class TransactionsService {
     rooms = rooms
       .map((room) => {
         return (
-          room.roomTypeID + '-' + room.quantity + '-' + room.roomsAvailable
+          room.roomTypeID +
+          '-' +
+          room.quantity +
+          '-' +
+          room.roomsAvailable +
+          '-' +
+          room?.promoCode
         );
       })
       .toString();

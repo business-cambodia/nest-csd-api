@@ -59,10 +59,12 @@ export class RoomsService {
     startDate: string,
     endDate: string,
     roomTypeID: string,
+    promoCode: string,
   ) => {
+    promoCode = promoCode ? promoCode : '';
     try {
       const res = await fetch(
-        `https://hotels.cloudbeds.com/api/v1.1/getRate?startDate=${startDate}&endDate=${endDate}&roomTypeID=${roomTypeID}`,
+        `https://hotels.cloudbeds.com/api/v1.1/getRatePlans?startDate=${startDate}&endDate=${endDate}&roomTypeID=${roomTypeID}&promoCode=${promoCode}&detailedRates=true`,
         {
           headers: {
             'Content-Type': 'application/json',

@@ -18,4 +18,19 @@ export class RoomsController {
   ) {
     return this.roomsService.searchRooms(startDate, endDate, adults);
   }
+
+  @Get('promoCode')
+  find(
+    @Query('startDate') startDate: string,
+    @Query('endDate') endDate: string,
+    @Query('roomTypeID') roomTypeID: string,
+    @Query('promoCode') promoCode: string,
+  ) {
+    return this.roomsService.getRoomPrice(
+      startDate,
+      endDate,
+      roomTypeID,
+      promoCode,
+    );
+  }
 }

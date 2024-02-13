@@ -44,13 +44,15 @@ export class AbaService {
             body.startDate,
             body.endDate,
             room.roomTypeID,
+            room.promoCode,
           );
           items.push({
             name: room.roomTypeName,
             quantity: +room.quantity,
-            price: +roomm.data.roomRate,
+            price: roomm.data[0].roomRate,
           });
-          return accumulator + roomm.data.roomRate * room.quantity;
+          room.roomRateID = roomm.data[0].rateID;
+          return accumulator + roomm.data[0].roomRate * room.quantity;
         },
         Promise.resolve(0),
       );
