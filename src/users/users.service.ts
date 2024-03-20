@@ -40,7 +40,18 @@ export class UsersService {
   }
 
   findAll() {
-    return this.usersRepository.find();
+    return this.usersRepository
+      .createQueryBuilder('user')
+      .select([
+        'user.id',
+        'user.firstName',
+        'user.lastName',
+        'user.email',
+        'user.created_at',
+        'user.phone_number',
+        'user.bookings',
+      ]) // Exclude 'user.password'
+      .getMany();
   }
 
   async findByEmail(email: string) {
